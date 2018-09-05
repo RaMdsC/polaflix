@@ -1,0 +1,34 @@
+.login-div {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+}
+mat-card {
+  max-width: 400px;
+  width: 75%;
+  align-self: center;
+  justify-self: center;
+}
+form {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+img {
+  height: 75px;
+  width: 75px;
+}
+mat-form-field {
+  margin-top: 10px;
+  width: 60%;
+}
+mat-icon {
+  cursor: pointer;
+}
+button {
+  margin-top: 20px;
+}
+a {
+  margin-top: 20px;
+  font-size: small;
+}

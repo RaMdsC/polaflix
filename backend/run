@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+java -Djava.net.preferIPv4Stack=true -jar target/polaflix-0.0.1.jar
+
