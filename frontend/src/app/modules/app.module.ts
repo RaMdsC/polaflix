@@ -1,25 +1,26 @@
-import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-import { HttpClientModule } from "@angular/common/http";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { ReactiveFormsModule } from "@angular/forms";
-import { RoutingModule } from "src/app/modules/routing.module";
-import { MaterialModule } from "src/app/modules/material.module";
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RoutingModule } from 'src/app/modules/routing.module';
+import { MaterialModule } from 'src/app/modules/material.module';
 
-import { AppComponent } from "src/app/components/app.component";
-import { InAppComponent } from "src/app/components/in-app/in-app.component";
-import { UserSpaceComponent } from "src/app/components/in-app/user-space/user-space.component";
-import { LandingComponent } from "src/app/components/landing/landing.component";
-import { LoginComponent } from "src/app/components/landing/login/login.component";
-import { RegisterComponent } from "src/app/components/landing/register/register.component";
-import { PageNotFoundComponent } from "src/app/components/page-not-found/page-not-found.component";
-import { NotificationComponent } from "src/app/components/notification/notification.component";
+import { AppComponent } from 'src/app/components/app.component';
+import { InAppComponent } from 'src/app/components/in-app/in-app.component';
+import { UserSpaceComponent } from 'src/app/components/in-app/user-space/user-space.component';
+import { LandingComponent } from 'src/app/components/landing/landing.component';
+import { LoginComponent } from 'src/app/components/landing/login/login.component';
+import { RegisterComponent } from 'src/app/components/landing/register/register.component';
+import { PageNotFoundComponent } from 'src/app/components/page-not-found/page-not-found.component';
+import { NotificationComponent } from 'src/app/components/notification/notification.component';
 
-import { ApiService } from "src/app/services/api.service";
-import { AuthGuardService } from "src/app/services/auth-guard.service";
-import { AuthService } from "src/app/services/auth.service";
-import { DataService } from "src/app/services/data.service";
-import { FormService } from "src/app/services/form.service";
+import { ApiService } from 'src/app/services/api.service';
+import { UserGuardService } from 'src/app/services/user-guard.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { DataService } from 'src/app/services/data.service';
+import { FormService } from 'src/app/services/form.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @NgModule({
   declarations: [
@@ -42,10 +43,11 @@ import { FormService } from "src/app/services/form.service";
   ],
   providers: [
     ApiService,
-    AuthGuardService,
+    UserGuardService,
     AuthService,
     DataService,
-    FormService
+    FormService,
+    NotificationService
   ],
   bootstrap: [
     AppComponent
@@ -54,6 +56,6 @@ import { FormService } from "src/app/services/form.service";
     NotificationComponent
   ]
 })
-export class AppModule { 
+export class AppModule {
 
 }

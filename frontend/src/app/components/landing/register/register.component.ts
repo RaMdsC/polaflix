@@ -1,12 +1,12 @@
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { FormService } from "src/app/services/form.service";
+import { FormService } from 'src/app/services/form.service';
 
 @Component({
-  selector: "pol-register",
-  templateUrl: "./register.component.html",
-  styleUrls: ["./register.component.css"]
+  selector: 'pol-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
 
@@ -24,8 +24,8 @@ export class RegisterComponent implements OnInit {
 
     // Set the form controls
     this.registerForm = new FormGroup({
-      userName: new FormControl("", [Validators.required, ]),
-      password: new FormControl("", [Validators.required])
+      userName: new FormControl('', [Validators.required, ]),
+      password: new FormControl('', [Validators.required])
     });
 
     // Set the submit attempt to false

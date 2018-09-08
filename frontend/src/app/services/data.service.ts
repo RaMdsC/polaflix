@@ -1,14 +1,14 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-import { User } from "src/app/models/user.model"
+import { User } from 'src/app/models/user.model';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class DataService {
 
   loggedInUser: User;
-  
-  constructor() {
 
+  constructor() {
+    this.loggedInUser = new User();
   }
 
   clear() {

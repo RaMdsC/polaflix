@@ -4,5 +4,6 @@ import lombok.Value;
 
 @Value
 public class AuthDTO {
+  
   String userName, password;
 }

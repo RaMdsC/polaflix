@@ -4,6 +4,6 @@ export class Series {
   name: string;
 
   constructor() {
-      
+
   }
 }

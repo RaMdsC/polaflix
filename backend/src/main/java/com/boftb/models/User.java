@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name = "user")
 public class User {
@@ -22,23 +25,4 @@ public class User {
   // This is ugly...
   @Column(name = "password")
   private String password;
-
-  public User() {
-    
-  }
-
-  public User(String userName, String firstName, String lastName, String password) {
-    this.userName = userName;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.password = password;
-  }
-
-  public String getUserName() {
-    return this.userName;
-  }
-
-  public String getPassword() {
-    return this.password;
-  }
 }

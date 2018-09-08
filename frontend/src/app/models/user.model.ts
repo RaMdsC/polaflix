@@ -1,4 +1,4 @@
-import { Series } from "src/app/models/series.model";
+import { Series } from 'src/app/models/series.model';
 
 export class User {
 

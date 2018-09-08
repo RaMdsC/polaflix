@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { FormGroup, ValidatorFn, AbstractControl } from "@angular/forms";
+import { Injectable } from '@angular/core';
+import { FormGroup, ValidatorFn, AbstractControl } from '@angular/forms';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class FormService {
-  
+
   constructor() {
 
   }
@@ -13,9 +13,9 @@ export class FormService {
          || (form.get(field).untouched && formSubmitAttempt));
   }
 
-  //unique(): ValidatorFn {
-  //  return (control: AbstractControl): { [key: string]: any } | null => {
-  //    this.
-  //  }
-  //}
+  // unique(): ValidatorFn {
+  //   return (control: AbstractControl): { [key: string]: any } | null => {
+  //     this.
+  //   }
+  // }
 }

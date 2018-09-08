@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
-import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
-import { NotificationComponent } from "src/app/components/notification/notification.component";
+import { Injectable } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { NotificationComponent } from 'src/app/components/notification/notification.component';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class NotificationService {
-  
+
   constructor(private dialog: MatDialog) {
 
   }

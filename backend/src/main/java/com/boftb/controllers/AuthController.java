@@ -21,7 +21,7 @@ public class AuthController {
     this.userRepository = userRepository;
   }
   
-  @CrossOrigin(origins = "http://127.0.0.1:8080")
+  @CrossOrigin(origins = "https://polaflix.boftb.com")
   @PostMapping("/authenticate")
   public AuthResponse authenticate(@RequestBody AuthRequest authRequest) {
     int status;
@@ -33,7 +33,6 @@ public class AuthController {
     if(opt.isPresent()) {
       // User exists
       AuthDTO authDto = opt.get();
-      System.out.println(authDto);
       if(authDto.getPassword().equals(authRequest.getPassword())) {
         // Password correct
         status = 0;
