@@ -3,21 +3,25 @@ package com.boftb.controllers;
 import java.util.Optional;
 
 import com.boftb.dtos.AuthDTO;
+import com.boftb.dtos.CheckDTO;
 import com.boftb.interfaces.AuthRequest;
 import com.boftb.interfaces.AuthResponse;
+import com.boftb.interfaces.CheckResponse;
 import com.boftb.repositories.UserRepository;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AuthController {
+public class UserController {
 
   private UserRepository userRepository;
 
-  public AuthController(UserRepository userRepository) {
+  public UserController(UserRepository userRepository) {
     this.userRepository = userRepository;
   }
   
@@ -50,5 +54,11 @@ public class AuthController {
 
     // Return the AuthResponse
     return new AuthResponse(status, message);
+  }
+
+  @CrossOrigin(origins = "https://polaflix.boftb.com")
+  @GetMapping("user/check/username/{userName}")
+  public CheckResponse checkUserName(@PathVariable String userName) {
+    return new CheckResponse(this.userRepository.findByUserName(userName, CheckDTO.class).isPresent());
   }
 }

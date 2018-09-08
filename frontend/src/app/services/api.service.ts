@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpClient } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment.prod';
@@ -12,7 +12,17 @@ export class ApiService {
 
   }
 
-  post<T>(partialUrl: string, rawBody: any) {
+  get<T>(partialUrl: string): Observable<T> {
+    // Construct full URL
+    const url = `${environment.apiUrl}/${partialUrl}`;
+    // Make the API call
+    return this.httpClient.get<T>(url)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  post<T>(partialUrl: string, rawBody: any): Observable<T> {
     // Construct full URL
     const url = `${environment.apiUrl}/${partialUrl}`;
     // Transform body into JSON
@@ -28,7 +38,7 @@ export class ApiService {
       );
   }
 
-  private handleError(error: HttpErrorResponse) {
+  private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = null;
     if (error.error instanceof ErrorEvent) {
       // Client side error

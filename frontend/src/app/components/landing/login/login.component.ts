@@ -6,8 +6,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { FormService } from 'src/app/services/form.service';
-import { AuthRequest } from 'src/app/interfaces/auth-request.interface';
-import { AuthResponse } from 'src/app/interfaces/auth-response.interface';
+import { AuthRequest } from 'src/app/interfaces/requests/auth-request.interface';
+import { AuthResponse } from 'src/app/interfaces/responses/auth-response.interface';
 
 @Component({
   selector: 'pol-login',

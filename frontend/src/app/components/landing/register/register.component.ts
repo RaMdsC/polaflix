@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   formSubmitAttempt: boolean;
 
-  constructor(private formService: FormService) {
+  constructor(public formService: FormService) {
 
   }
 
@@ -24,11 +24,18 @@ export class RegisterComponent implements OnInit {
 
     // Set the form controls
     this.registerForm = new FormGroup({
-      userName: new FormControl('', [Validators.required, ]),
-      password: new FormControl('', [Validators.required])
+      userName: new FormControl('', [Validators.required], this.formService.unique('User', 'userName')),
+      firstName: new FormControl(''),
+      lastName: new FormControl(''),
+      password: new FormControl('', [Validators.required]),
+      repeatPassword: new FormControl('', [Validators.required])
     });
 
     // Set the submit attempt to false
     this.formSubmitAttempt = false;
+  }
+
+  onSubmit() {
+
   }
 }

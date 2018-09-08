@@ -4,8 +4,8 @@
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <img src="../../../assets/logo.png" alt="Polaflix Logo">
         <mat-form-field>
-          <input matInput placeholder="Username" formControlName="userName">
-          <mat-error *ngIf="formService.isFieldInvalid('userName', loginForm, formSubmitAttempt)">
+          <input matInput placeholder="User name" formControlName="userName">
+          <mat-error *ngIf="formService.isFieldInvalid('userName', 'required', loginForm, formSubmitAttempt)">
             User name is <strong>required</strong>.
           </mat-error>
         </mat-form-field>
@@ -14,7 +14,7 @@
           <mat-icon matSuffix (click)="hiddenPassword = !hiddenPassword">
             {{hiddenPassword ? 'visibility' : 'visibility_off'}}
           </mat-icon>
-          <mat-error *ngIf="formService.isFieldInvalid('password', loginForm, formSubmitAttempt)">
+          <mat-error *ngIf="formService.isFieldInvalid('password', 'required', loginForm, formSubmitAttempt)">
             Password is <strong>required</strong>.
           </mat-error>
         </mat-form-field>

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { AuthRequest } from 'src/app/interfaces/auth-request.interface';
-import { AuthResponse } from 'src/app/interfaces/auth-response.interface';
 import { ApiService } from 'src/app/services/api.service';
 import { DataService } from 'src/app/services/data.service';
+
+import { AuthRequest } from 'src/app/interfaces/requests/auth-request.interface';
+import { AuthResponse } from 'src/app/interfaces/responses/auth-response.interface';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

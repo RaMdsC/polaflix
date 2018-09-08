@@ -16,11 +16,11 @@ import { PageNotFoundComponent } from 'src/app/components/page-not-found/page-no
 import { NotificationComponent } from 'src/app/components/notification/notification.component';
 
 import { ApiService } from 'src/app/services/api.service';
-import { UserGuardService } from 'src/app/services/user-guard.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { FormService } from 'src/app/services/form.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { UserGuardService } from 'src/app/services/user-guard.service';
 
 @NgModule({
   declarations: [
@@ -43,11 +43,11 @@ import { NotificationService } from 'src/app/services/notification.service';
   ],
   providers: [
     ApiService,
-    UserGuardService,
     AuthService,
     DataService,
     FormService,
-    NotificationService
+    NotificationService,
+    UserGuardService
   ],
   bootstrap: [
     AppComponent
