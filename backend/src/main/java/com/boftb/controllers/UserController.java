@@ -2,11 +2,11 @@ package com.boftb.controllers;
 
 import java.util.Optional;
 
-import com.boftb.dtos.AuthDTO;
-import com.boftb.dtos.CheckDTO;
-import com.boftb.interfaces.AuthRequest;
-import com.boftb.interfaces.AuthResponse;
-import com.boftb.interfaces.CheckResponse;
+import com.boftb.interfaces.requests.CheckUserNameRequest;
+import com.boftb.interfaces.requests.LoginRequest;
+import com.boftb.interfaces.requests.RegisterRequest;
+import com.boftb.interfaces.responses.StatusResponse;
+import com.boftb.models.User;
 import com.boftb.repositories.UserRepository;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,39 +26,61 @@ public class UserController {
   }
   
   @CrossOrigin(origins = "https://polaflix.boftb.com")
-  @PostMapping("/authenticate")
-  public AuthResponse authenticate(@RequestBody AuthRequest authRequest) {
-    int status;
-    String message; 
+  @PostMapping("/user/login")
+  public StatusResponse login(@RequestBody LoginRequest loginRequest) {
+    int statusCode;
 
-    // Get auth DTO by userName (Id)
-    Optional<AuthDTO> opt =
-      this.userRepository.findByUserName(authRequest.getUserName(), AuthDTO.class);
+    // Get login request by userName (Id)
+    Optional<LoginRequest> opt =
+      this.userRepository.findByUserName(loginRequest.getUserName(), LoginRequest.class);
     if(opt.isPresent()) {
       // User exists
-      AuthDTO authDto = opt.get();
-      if(authDto.getPassword().equals(authRequest.getPassword())) {
-        // Password correct
-        status = 0;
-        message = "Authentication successful";
+      LoginRequest loginRequestRetrieved = opt.get();
+      if(loginRequestRetrieved.getPassword().equals(loginRequest.getPassword())) {
+        // Password correct, user authenticated
+        statusCode = 0;
       } else {
         // Password incorrect
-        status = 1;
-        message = "Incorrect password";
+        statusCode = 1;
       }
     } else {
       // User does not exist
-      status = 2;
-      message = "User name does not exist";
+      statusCode = 2;
     }
 
-    // Return the AuthResponse
-    return new AuthResponse(status, message);
+    // Return the StatusResponse
+    return new StatusResponse(statusCode);
   }
 
   @CrossOrigin(origins = "https://polaflix.boftb.com")
   @GetMapping("user/check/username/{userName}")
-  public CheckResponse checkUserName(@PathVariable String userName) {
-    return new CheckResponse(this.userRepository.findByUserName(userName, CheckDTO.class).isPresent());
+  public StatusResponse checkUserName(@PathVariable String userName) {
+    int statusCode;
+
+    if(this.userRepository.findByUserName(userName, CheckUserNameRequest.class).isPresent()) {
+      // User exists
+      statusCode = 0;
+    } else {
+      // User does not exist
+      statusCode = 1;
+    }
+
+    return new StatusResponse(statusCode);
+  }
+
+  @CrossOrigin(origins = "https://polaflix.boftb.com")
+  @PostMapping("user/register")
+  public StatusResponse register(@RequestBody RegisterRequest registerRequest) {
+    int statusCode;
+
+    // Store the user in the database
+    User user = new User(registerRequest.getUserName(),
+                         registerRequest.getFirstName(),
+                         registerRequest.getLastName(),
+                         registerRequest.getPassword());
+    this.userRepository.save(user);
+    statusCode = 0;
+
+    return new StatusResponse(statusCode);
   }
 }

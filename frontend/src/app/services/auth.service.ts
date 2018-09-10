@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { DataService } from 'src/app/services/data.service';
 
-import { AuthRequest } from 'src/app/interfaces/requests/auth-request.interface';
-import { AuthResponse } from 'src/app/interfaces/responses/auth-response.interface';
+import { LoginRequest } from 'src/app/interfaces/requests/login-request.interface';
+import { StatusResponse } from 'src/app/interfaces/responses/status-response.interface';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -14,8 +14,8 @@ export class AuthService {
 
   }
 
-  login(authRequest: AuthRequest) {
-    return this.apiService.post<AuthResponse>('authenticate', authRequest);
+  login(loginRequest: LoginRequest) {
+    return this.apiService.post<StatusResponse>('user/login', loginRequest);
   }
 
   logout() {

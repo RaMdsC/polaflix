@@ -6,19 +6,18 @@ import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { FormService } from 'src/app/services/form.service';
-import { AuthRequest } from 'src/app/interfaces/requests/auth-request.interface';
-import { AuthResponse } from 'src/app/interfaces/responses/auth-response.interface';
+import { LoginRequest } from 'src/app/interfaces/requests/login-request.interface';
+import { StatusResponse } from 'src/app/interfaces/responses/status-response.interface';
 
 @Component({
   selector: 'pol-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
 
   hiddenPassword: boolean;
   loginForm: FormGroup;
-  formSubmitAttempt: boolean;
 
   constructor(private authService: AuthService,
               private dataService: DataService,
@@ -37,56 +36,52 @@ export class LoginComponent implements OnInit {
       userName: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
     });
-
-    // Set the submit attempt to false
-    this.formSubmitAttempt = false;
   }
 
   onSubmit() {
     if (this.loginForm.valid) {
       // Call the authentication service for logging in
-      const authRequest = new AuthRequest(this.loginForm.controls.userName.value,
-                                          this.loginForm.controls.password.value);
-      this.authService.login(authRequest)
+      const loginRequest: LoginRequest = new LoginRequest(
+        this.loginForm.controls.userName.value,
+        this.loginForm.controls.password.value);
+      this.authService.login(loginRequest)
         .subscribe(
-          (authResponse: AuthResponse) => {
+          (statusResponse: StatusResponse) => {
             // Handle the replied result
-            this.handleResult(authRequest, authResponse);
+            this.handleResult(loginRequest, statusResponse);
           },
           (error: any) => {
             // An error was received
             this.notificationService.showNotification(error);
           }
         );
-    } else {
-      this.formSubmitAttempt = true;
     }
   }
 
-  handleResult(authRequest: AuthRequest, authResponse: AuthResponse) {
-    switch (authResponse.status) {
+  handleResult(loginRequest: LoginRequest, statusResponse: StatusResponse) {
+    switch (statusResponse.statusCode) {
       // User authenticated
       case 0: {
-        console.log(authResponse.message);
+        console.log('Authentication successful');
         // Store the user info in the browser
-        localStorage.setItem('loggedInUserInfo', JSON.stringify(authRequest));
+        localStorage.setItem('loggedInUserInfo', JSON.stringify(loginRequest));
         // Update the data service
-        this.dataService.loggedInUser.userName = authRequest.userName;
-        this.dataService.loggedInUser.password = authRequest.password;
+        this.dataService.loggedInUser.userName = loginRequest.userName;
+        this.dataService.loggedInUser.password = loginRequest.password;
         // Navigate to current user space
-        this.router.navigateByUrl(`/users/${authRequest.userName}`);
+        this.router.navigateByUrl(`/users/${loginRequest.userName}`);
         break;
       }
       // Password incorrect
       case 1: {
-        console.error(authResponse.message);
-        this.notificationService.showNotification(authResponse.message);
+        console.error('Incorrect password');
+        this.notificationService.showNotification('Incorrect password');
         break;
       }
       // Unknown username
       case 2: {
-        console.error(authResponse.message);
-        this.notificationService.showNotification(authResponse.message);
+        console.error('User name does not exist');
+        this.notificationService.showNotification('User name does not exist');
         break;
       }
     }

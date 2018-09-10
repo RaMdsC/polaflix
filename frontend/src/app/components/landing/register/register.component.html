@@ -2,15 +2,53 @@
   <mat-card>
     <mat-card-content>
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <mat-form-field>
+        <img src="../../../assets/logo.png" alt="Polaflix Logo" class="polaflix-logo">
+        <mat-form-field class="user-name-form-field">
           <input matInput placeholder="User name" formControlName="userName">
-          <mat-error *ngIf="formService.isFieldInvalid('userName', 'required', registerForm, formSubmitAttempt)">
+          <mat-error *ngIf="registerForm.controls.userName.hasError('required')">
             User name is <strong>required</strong>.
           </mat-error>
-          <mat-error *ngIf="formService.isFieldInvalid('userName', 'unique', registerForm, formSubmitAttempt)">
+          <mat-error *ngIf="registerForm.controls.userName.hasError('noForbiddenCharacters')">
+            Forbidden characters <strong>{{formService.forbiddenCharacters['user/username'].join(' ')}}</strong>.
+          </mat-error>
+          <mat-error *ngIf="registerForm.controls.userName.hasError('unique')">
             User name is <strong>already taken</strong>.
           </mat-error>
         </mat-form-field>
+        <mat-form-field class="first-name-form-field">
+          <input matInput placeholder="First name" formControlName="firstName">
+          <mat-error *ngIf="registerForm.controls.firstName.hasError('noForbiddenCharacters')">
+            Forbidden characters <strong>{{formService.forbiddenCharacters['user/firstname'].join(' ')}}</strong>.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="last-name-form-field">
+          <input matInput placeholder="Last name" formControlName="lastName">
+          <mat-error *ngIf="registerForm.controls.lastName.hasError('noForbiddenCharacters')">
+            Forbidden characters <strong>{{formService.forbiddenCharacters['user/lastname'].join(' ')}}</strong>.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="password-form-field">
+          <input matInput placeholder="Password" [type]="hiddenPassword ? 'password' : 'text'" formControlName="password">
+          <mat-icon matSuffix (click)="hiddenPassword = !hiddenPassword">
+            {{hiddenPassword ? 'visibility' : 'visibility_off'}}
+          </mat-icon>
+          <mat-error *ngIf="registerForm.controls.password.hasError('required')">
+            Password is <strong>required</strong>.
+          </mat-error>
+          <mat-error *ngIf="registerForm.controls.password.hasError('strongPassword')">
+            Need <strong>{{formService.strongPasswordMessage}}</strong>.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="repeat-password-form-field">
+          <input matInput placeholder="Repeat password" type="password" formControlName="repeatPassword">
+          <mat-error *ngIf="registerForm.controls.repeatPassword.hasError('matchingPasswords')">
+            Passwords need to match.
+          </mat-error>
+        </mat-form-field>
+        <button type="submit" mat-raised-button color="primary" class="register-button">Register</button>
+        <mat-divider [inset]="true"></mat-divider>
+        <button mdbBtn type="button" (click)="signInWithFb()" color="indigo" class="fb-button waves-light" mdbWavesEffect><i class="fa fa-facebook left"></i>Facebook</button>
+        <button mdbBtn type="button" (click)="signInWithGo()" color="red" class="go-button waves-light" mdbWavesEffect><i class="fa fa-google-plus left"></i>Google +</button>
       </form>
     </mat-card-content>
   </mat-card>

@@ -11,6 +11,7 @@ mat-card {
 }
 form {
   display: grid;
+  height: 275px;
   align-items: center;
   justify-items: center;
 }
@@ -21,9 +22,6 @@ img {
 mat-form-field {
   margin-top: 10px;
   width: 60%;
-}
-mat-icon {
-  cursor: pointer;
 }
 button {
   margin-top: 20px;
