@@ -1,5 +1,13 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~@angular/material/theming';
 
 mat-icon {
   cursor: pointer;
 }
+
+// Custom typography to apply in web app
+$custom-typography: mat-typography-config(
+    $font-family: 'Work Sans, sans-serif'
+);
+
+@include mat-core($custom-typography);

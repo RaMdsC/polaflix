@@ -1,0 +1,32 @@
+mat-toolbar {
+  display: grid;
+  grid-template-columns: 14% auto 14%;
+  grid-template-rows: 100%;
+  height: 80px;
+  width: 100vw;
+}
+.polaflix-logo {
+  height: 100%;
+  justify-self: left;
+  grid-column: 1 / 2;
+  grid-row: 1 / 1;
+}
+.welcome-text {
+  font-size: 28px;
+  font-weight: bold;
+  justify-self: center;
+  grid-column: 2 / 3;
+  grid-row: 1 / 1;
+}
+.avatar {
+  border-radius: 50%;
+  height: 80%;
+  justify-self: right;
+  grid-column: 3 / 4;
+  grid-row: 1 / 1;
+}
+.logout-button {
+  justify-self: left;
+  grid-column: 3 / 4;
+  grid-row: 1 / 1;
+}

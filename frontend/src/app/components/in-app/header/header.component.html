@@ -1,0 +1,6 @@
+<mat-toolbar color="primary">
+  <img src="../../../assets/logo.png" alt="Polaflix Logo" class="polaflix-logo">
+  <h1 class="welcome-text">Welcome {{dataService.loggedInUser.userName}}</h1>
+  <button mat-stroked-button class="logout-button" (click)="handleLogout()"><b>LOGOUT</b></button>
+  <img src="../../../assets/avatar.jpg" alt="Avatar" class="avatar">
+</mat-toolbar>

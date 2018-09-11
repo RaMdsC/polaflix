@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
+import { DataService } from 'src/app/services/data.service';
+
 @Injectable({ providedIn: 'root' })
 export class UserGuardService implements CanActivate {
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private dataService: DataService) {
 
   }
 
@@ -16,14 +19,19 @@ export class UserGuardService implements CanActivate {
       // Redirect to login if there is no user
       this.router.navigateByUrl('/login');
       return false;
-    } else if (state.url === '/users' || this.otherUser(loggedInUserInfo['userName'], state.url)) {
-      // Redirect to its user space if the requested URL is intermediate
-      // or if it is based on another user's domain
-      this.router.navigateByUrl(`/users/${loggedInUserInfo['userName']}`);
-      return false;
     } else {
-      // Allow access otherwise
-      return true;
+      // Load userName and password into data service
+      this.dataService.loggedInUser.userName = loggedInUserInfo['userName'];
+      this.dataService.loggedInUser.password = loggedInUserInfo['password'];
+      if (state.url === '/users' || this.otherUser(loggedInUserInfo['userName'], state.url)) {
+        // Redirect to its user space if the requested URL is intermediate
+        // or if it is based on another user's domain
+        this.router.navigateByUrl(`/users/${loggedInUserInfo['userName']}`);
+        return false;
+      } else {
+        // Allow access otherwise
+        return true;
+      }
     }
   }
 

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { ApiService } from 'src/app/services/api.service';
 import { DataService } from 'src/app/services/data.service';
@@ -10,7 +11,8 @@ import { StatusResponse } from 'src/app/interfaces/responses/status-response.int
 export class AuthService {
 
   constructor(private apiService: ApiService,
-              private dataService: DataService) {
+              private dataService: DataService,
+              private router: Router) {
 
   }
 
@@ -23,5 +25,7 @@ export class AuthService {
     localStorage.removeItem('loggedInUserInfo');
     // Clear data service to avoid information leakage on next login
     this.dataService.clear();
+    // Redirect to login page
+    this.router.navigateByUrl('/login');
   }
 }

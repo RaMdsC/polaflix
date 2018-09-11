@@ -12,6 +12,7 @@ import { ErrorStateMatcher } from '@angular/material';
 
 import { AppComponent } from 'src/app/components/app.component';
 import { InAppComponent } from 'src/app/components/in-app/in-app.component';
+import { HeaderComponent } from 'src/app/components/in-app/header/header.component';
 import { UserSpaceComponent } from 'src/app/components/in-app/user-space/user-space.component';
 import { LandingComponent } from 'src/app/components/landing/landing.component';
 import { LoginComponent } from 'src/app/components/landing/login/login.component';
@@ -46,6 +47,7 @@ export function provideASConfig(): ASConfig {
   declarations: [
     AppComponent,
     InAppComponent,
+    HeaderComponent,
     UserSpaceComponent,
     LandingComponent,
     LoginComponent,
