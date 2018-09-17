@@ -1,6 +1,6 @@
-<mat-toolbar color="primary">
-  <img src="../../../assets/logo.png" alt="Polaflix Logo" class="polaflix-logo">
-  <h1 class="welcome-text">Welcome {{dataService.loggedInUser.userName}}</h1>
-  <button mat-stroked-button class="logout-button" (click)="handleLogout()"><b>LOGOUT</b></button>
-  <img src="../../../assets/avatar.jpg" alt="Avatar" class="avatar">
+<mat-toolbar class="header-toolbar" color="primary">
+  <img class="polaflix-logo" src="../../../assets/logo.png" alt="Polaflix Logo">
+  <h1 class="welcome-text">Welcome {{dataService.getUserName()}}</h1>
+  <button class="logout-button" mat-stroked-button (click)="authService.logout()"><b>LOGOUT</b></button>
+  <img class="user-avatar" src="../../../assets/avatar.jpg" alt="Avatar">
 </mat-toolbar>

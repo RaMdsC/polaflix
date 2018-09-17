@@ -6,8 +6,8 @@ import { DataService } from 'src/app/services/data.service';
 @Injectable({ providedIn: 'root' })
 export class UserGuardService implements CanActivate {
 
-  constructor(private router: Router,
-              private dataService: DataService) {
+  constructor(private dataService: DataService,
+              private router: Router) {
 
   }
 
@@ -21,6 +21,7 @@ export class UserGuardService implements CanActivate {
       return false;
     } else {
       // Load userName and password into data service
+      this.dataService.loggedInUser.id = loggedInUserInfo['id'];
       this.dataService.loggedInUser.userName = loggedInUserInfo['userName'];
       this.dataService.loggedInUser.password = loggedInUserInfo['password'];
       if (state.url === '/users' || this.otherUser(loggedInUserInfo['userName'], state.url)) {

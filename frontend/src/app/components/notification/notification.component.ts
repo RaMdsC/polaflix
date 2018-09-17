@@ -13,7 +13,7 @@ export class NotificationComponent {
 
   }
 
-  close() {
+  close(): void {
     this.dialogRef.close();
   }
 }

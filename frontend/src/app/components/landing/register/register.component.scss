@@ -1,21 +1,35 @@
-.register-div {
+:host {
+  height: 100%;
+  width: 100%;
   display: grid;
-  height: 100vh;
-  width: 100vw;
+  overflow: auto;
 }
-mat-card {
+.register-card {
   max-width: 400px;
   width: 75%;
   align-self: center;
   justify-self: center;
 }
-form {
+.register-form {
   display: grid;
   height: 400px;
   grid-template-columns: 50% auto;
   grid-template-rows: 18% 17% 17% 17% 15% 1% 15%;
 }
-img {
+.register-button {
+  grid-column: 1 / 3;
+  grid-row: 5 / 6;
+  justify-self: center;
+  align-self: center;
+}
+.register-divider {
+  width: 75%;
+  grid-column: 1 / 3;
+  grid-row: 6 / 7;
+  justify-self: center;
+  align-self: center;
+}
+.polaflix-logo {
   height: 75px;
   width: 75px;
   grid-column: 1 / 3;
@@ -55,19 +69,6 @@ img {
   width: 85%;
   grid-column: 2 / 3;
   grid-row: 4 / 5;
-  justify-self: center;
-  align-self: center;
-}
-.register-button {
-  grid-column: 1 / 3;
-  grid-row: 5 / 6;
-  justify-self: center;
-  align-self: center;
-}
-mat-divider {
-  width: 75%;
-  grid-column: 1 / 3;
-  grid-row: 6 / 7;
   justify-self: center;
   align-self: center;
 }

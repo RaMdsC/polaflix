@@ -10,7 +10,7 @@ export class NotificationService {
 
   }
 
-  showNotification(message: string) {
+  showNotification(message: string): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = message;
     this.dialog.open(NotificationComponent, dialogConfig);

@@ -11,11 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class HeaderComponent {
 
   constructor(public dataService: DataService,
-              private authService: AuthService) {
+              public authService: AuthService) {
 
-  }
-
-  handleLogout() {
-    this.authService.logout();
   }
 }

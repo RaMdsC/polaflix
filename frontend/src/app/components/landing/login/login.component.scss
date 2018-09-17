@@ -1,32 +1,33 @@
-.login-div {
+:host {
+  height: 100%;
+  width: 100%;
   display: grid;
-  height: 100vh;
-  width: 100vw;
+  overflow: auto;
 }
-mat-card {
+.login-card {
   max-width: 400px;
   width: 75%;
   align-self: center;
   justify-self: center;
 }
-form {
+.login-form {
   display: grid;
   height: 275px;
   align-items: center;
   justify-items: center;
 }
-img {
+.login-button {
+  margin-top: 20px;
+}
+.polaflix-logo {
   height: 75px;
   width: 75px;
+}
+.register-link {
+  margin-top: 20px;
+  font-size: small;
 }
 mat-form-field {
   margin-top: 10px;
   width: 60%;
-}
-button {
-  margin-top: 20px;
-}
-a {
-  margin-top: 20px;
-  font-size: small;
 }

@@ -1,15 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { AuthService as ASService, FacebookLoginProvider, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
-import { Router } from '@angular/router';
-
 import { FormService } from 'src/app/services/form.service';
-import { ApiService } from 'src/app/services/api.service';
-import { DataService } from 'src/app/services/data.service';
-import { NotificationService } from 'src/app/services/notification.service';
-import { RegisterRequest } from 'src/app/interfaces/requests/register-request.interface';
-import { StatusResponse } from 'src/app/interfaces/responses/status-response.interface';
+import { ContentService } from 'src/app/services/content.service';
+import { AuthService, FacebookLoginProvider, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
 
 @Component({
   selector: 'pol-register',
@@ -22,11 +16,8 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
 
   constructor(public formService: FormService,
-              private asService: ASService,
-              private apiService: ApiService,
-              private dataService: DataService,
-              private notificationService: NotificationService,
-              private router: Router) {
+              private contentService: ContentService,
+              private authService: AuthService) {
 
   }
 
@@ -35,95 +26,43 @@ export class RegisterComponent implements OnInit {
     this.hiddenPassword = true;
 
     // Set the form controls
-    this.registerForm = new FormGroup(
-      // controls
-      {
-        userName: new FormControl(
-          // formState
-          '',
-          // validatorOrOpts
-          [
-            Validators.required,
-            this.formService.noForbiddenCharacters('user', 'username')
-          ],
-          // asyncValidator
-          this.formService.unique('user', 'username')
-        ),
-        firstName: new FormControl(
-          '',
-          [
-            this.formService.noForbiddenCharacters('user', 'firstname')
-          ]
-        ),
-        lastName: new FormControl(
-          '',
-          [
-            this.formService.noForbiddenCharacters('user', 'lastname')
-          ]
-        ),
-        password: new FormControl(
-          '',
-          [
-            Validators.required,
-            this.formService.strongPassword()
-          ]
-        ),
-        repeatPassword: new FormControl(
-          '',
-          [
-            Validators.required
-          ]
-        )
-      },
-      // validatorOrOpts
-      this.formService.matchingPasswords(),
-      // asyncValidator
-      null
-    );
+    this.registerForm = new FormGroup({
+      userName: new FormControl('', [
+        Validators.required,
+        this.formService.noForbiddenCharacters('user', 'username')
+      ], this.formService.unique('user', 'username')),
+      firstName: new FormControl('', [
+        this.formService.noForbiddenCharacters('user', 'firstname')
+      ]),
+      lastName: new FormControl('', [
+        this.formService.noForbiddenCharacters('user', 'lastname')
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        this.formService.strongPassword()
+      ]),
+      repeatPassword: new FormControl('', [
+        Validators.required
+      ])
+    }, this.formService.matchingPasswords(), null);
   }
 
   onSubmit(): void {
     if (this.registerForm.valid) {
       // Add new User to the Service
-      const registerRequest: RegisterRequest = new RegisterRequest(
-        this.registerForm.controls.userName.value,
-        this.registerForm.controls.firstName.value,
-        this.registerForm.controls.lastName.value,
-        this.registerForm.controls.password.value
-      );
-
-      this.apiService.post<StatusResponse>('user/register', registerRequest)
-        .subscribe(
-          (statusResponse: StatusResponse) => {
-            switch (statusResponse.statusCode) {
-              case 0:
-                // User has been stored in the Service database
-                // Add it to localStorage and dataService
-                localStorage.setItem('loggedInUserInfo', JSON.stringify({
-                  userName: registerRequest.userName,
-                  password: registerRequest.password
-                }));
-                this.dataService.loggedInUser.userName = registerRequest.userName;
-                this.dataService.loggedInUser.password = registerRequest.password;
-                // Navigate to user space
-                this.router.navigateByUrl(`/users/${registerRequest.userName}`);
-                break;
-            }
-          },
-          (error: any) => {
-            // An error was received
-            this.notificationService.showNotification(error);
-          }
-        );
+      this.contentService.addUser(this.registerForm.controls.userName.value,
+                                  this.registerForm.controls.firstName.value,
+                                  this.registerForm.controls.lastName.value,
+                                  this.registerForm.controls.password.value);
     }
   }
 
   signInWithFb(): void {
-    this.handleData(this.asService.signIn(FacebookLoginProvider.PROVIDER_ID));
+    this.handleData(this.authService.signIn(FacebookLoginProvider.PROVIDER_ID));
   }
 
   signInWithGo(): void {
-    this.handleData(this.asService.signIn(GoogleLoginProvider.PROVIDER_ID));
+    this.handleData(this.authService.signIn(GoogleLoginProvider.PROVIDER_ID));
   }
 
   private handleData(promise: Promise<SocialUser>): void {
@@ -148,7 +87,7 @@ export class RegisterComponent implements OnInit {
         this.registerForm.controls.lastName.setValue(
           this.normalize(user.lastName.split(/\s+/)[0]));
       }
-      this.asService.signOut();
+      this.authService.signOut();
     });
   }
 

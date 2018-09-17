@@ -1,16 +1,17 @@
-import { Series } from 'src/app/models/series.model';
+import { ManagedSeries } from 'src/app/models/managed-series.model';
 
 export class User {
 
+  id: number;
   userName: string;
   password: string;
-  name: string;
-  surname: string;
-  ongoingSeries: Series;
-  pendingSeries: Series;
-  completedSeries: Series;
+  ongoingSeries: ManagedSeries[];
+  pendingSeries: ManagedSeries[];
+  completedSeries: ManagedSeries[];
 
   constructor() {
-
+    this.ongoingSeries = [];
+    this.pendingSeries = [];
+    this.completedSeries = [];
   }
 }

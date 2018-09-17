@@ -2,11 +2,18 @@ package com.boftb.controllers;
 
 import java.util.Optional;
 
-import com.boftb.interfaces.requests.CheckUserNameRequest;
+import com.boftb.interfaces.projections.CheckUserNameProjection;
+import com.boftb.interfaces.projections.LoginProjection;
+import com.boftb.interfaces.projections.ManagedSeriesProjection;
 import com.boftb.interfaces.requests.LoginRequest;
 import com.boftb.interfaces.requests.RegisterRequest;
+import com.boftb.interfaces.responses.MixedResponse;
+import com.boftb.interfaces.responses.MultipleDataResponse;
 import com.boftb.interfaces.responses.StatusResponse;
 import com.boftb.models.User;
+import com.boftb.repositories.CompletedSeriesRepository;
+import com.boftb.repositories.OngoingSeriesRepository;
+import com.boftb.repositories.PendingSeriesRepository;
 import com.boftb.repositories.UserRepository;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,36 +27,49 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
   private UserRepository userRepository;
+  private OngoingSeriesRepository ongoingSeriesRepository;
+  private PendingSeriesRepository pendingSeriesRepository;
+  private CompletedSeriesRepository completedSeriesRepository;
 
-  public UserController(UserRepository userRepository) {
+  public UserController(UserRepository userRepository,
+                        OngoingSeriesRepository ongoingSeriesRepository,
+                        PendingSeriesRepository pendingSeriesRepository,
+                        CompletedSeriesRepository completedSeriesRepository) {
     this.userRepository = userRepository;
+    this.ongoingSeriesRepository = ongoingSeriesRepository;
+    this.pendingSeriesRepository = pendingSeriesRepository;
+    this.completedSeriesRepository = completedSeriesRepository;
   }
   
   @CrossOrigin(origins = "https://polaflix.boftb.com")
   @PostMapping("/user/login")
-  public StatusResponse login(@RequestBody LoginRequest loginRequest) {
+  public MixedResponse<Long> login(@RequestBody LoginRequest loginRequest) {
+    Long id;
     int statusCode;
 
-    // Get login request by userName (Id)
-    Optional<LoginRequest> opt =
-      this.userRepository.findByUserName(loginRequest.getUserName(), LoginRequest.class);
+    // Get login projection by userName
+    Optional<LoginProjection> opt =
+      this.userRepository.findByUserName(loginRequest.getUserName(), LoginProjection.class);
     if(opt.isPresent()) {
       // User exists
-      LoginRequest loginRequestRetrieved = opt.get();
-      if(loginRequestRetrieved.getPassword().equals(loginRequest.getPassword())) {
+      LoginProjection loginProjRetrieved = opt.get();
+      if(loginProjRetrieved.getPassword().equals(loginRequest.getPassword())) {
         // Password correct, user authenticated
+        id = loginProjRetrieved.getId();
         statusCode = 0;
       } else {
         // Password incorrect
+        id = null;
         statusCode = 1;
       }
     } else {
       // User does not exist
+      id = null;
       statusCode = 2;
     }
 
     // Return the StatusResponse
-    return new StatusResponse(statusCode);
+    return new MixedResponse<Long>(id, statusCode);
   }
 
   @CrossOrigin(origins = "https://polaflix.boftb.com")
@@ -57,7 +77,7 @@ public class UserController {
   public StatusResponse checkUserName(@PathVariable String userName) {
     int statusCode;
 
-    if(this.userRepository.findByUserName(userName, CheckUserNameRequest.class).isPresent()) {
+    if(this.userRepository.findByUserName(userName, CheckUserNameProjection.class).isPresent()) {
       // User exists
       statusCode = 0;
     } else {
@@ -70,7 +90,8 @@ public class UserController {
 
   @CrossOrigin(origins = "https://polaflix.boftb.com")
   @PostMapping("user/register")
-  public StatusResponse register(@RequestBody RegisterRequest registerRequest) {
+  public MixedResponse<Long> register(@RequestBody RegisterRequest registerRequest) {
+    Long id;
     int statusCode;
 
     // Store the user in the database
@@ -78,9 +99,34 @@ public class UserController {
                          registerRequest.getFirstName(),
                          registerRequest.getLastName(),
                          registerRequest.getPassword());
-    this.userRepository.save(user);
+    User savedUser = this.userRepository.save(user);
+    id = savedUser.getId();
     statusCode = 0;
 
-    return new StatusResponse(statusCode);
+    return new MixedResponse<Long>(id, statusCode);
+  }
+
+  @CrossOrigin(origins = "https://polaflix.boftb.com")
+  @GetMapping("user/ongoing/{userId}")
+  public MultipleDataResponse<ManagedSeriesProjection> getOngoingSeries(@PathVariable Long userId) {
+    // Get the ongoing series from the specified user
+    return new MultipleDataResponse<ManagedSeriesProjection>(this.ongoingSeriesRepository
+      .findByUserSeriesIdUserId(userId, ManagedSeriesProjection.class));
+  }
+
+  @CrossOrigin(origins = "https://polaflix.boftb.com")
+  @GetMapping("user/pending/{userId}")
+  public MultipleDataResponse<ManagedSeriesProjection> getPendingSeries(@PathVariable Long userId) {
+    // Get the pending series from the specified user
+    return new MultipleDataResponse<ManagedSeriesProjection>(this.pendingSeriesRepository
+      .findByUserSeriesIdUserId(userId, ManagedSeriesProjection.class));
+  }
+
+  @CrossOrigin(origins = "https://polaflix.boftb.com")
+  @GetMapping("user/completed/{userId}")
+  public MultipleDataResponse<ManagedSeriesProjection> getCompletedSeries(@PathVariable Long userId) {
+    // Get the pending series from the specified user
+    return new MultipleDataResponse<ManagedSeriesProjection>(this.completedSeriesRepository
+      .findByUserSeriesIdUserId(userId, ManagedSeriesProjection.class));
   }
 }

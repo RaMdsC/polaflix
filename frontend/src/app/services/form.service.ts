@@ -100,7 +100,7 @@ export class FormService {
 
   matchingPasswords(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      const formGroup = control as FormGroup;
+      const formGroup: FormGroup = control as FormGroup;
       // Check if passwords match
       if (formGroup.controls.password.value !== formGroup.controls.repeatPassword.value) {
         if (formGroup.controls.repeatPassword.errors) {

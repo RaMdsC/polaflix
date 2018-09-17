@@ -1,0 +1,17 @@
+<mat-toolbar class="link-toolbar">
+  <span class="home-link">
+    <a [routerLink]="['/users/', dataService.getUserName()]" routerLinkActive="active">
+      Home
+    </a>
+  </span>
+  <span class="add-series-link">
+    <a routerLink="/series" routerLinkActive="active">
+      Add Series
+    </a>
+  </span>
+  <span class="see-payments-link">
+    <a [routerLink]="['/users/', dataService.getUserName(), 'payments']" routerLinkActive="active">
+      See Payments
+    </a>
+  </span>
+</mat-toolbar>

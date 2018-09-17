@@ -1,26 +1,24 @@
-<div class="login-div">
-  <mat-card>
-    <mat-card-content>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <img src="../../../assets/logo.png" alt="Polaflix Logo">
-        <mat-form-field>
-          <input matInput placeholder="User name" formControlName="userName">
-          <mat-error *ngIf="loginForm.controls.userName.hasError('required')">
-            User name is <strong>required</strong>.
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Password" [type]="hiddenPassword ? 'password' : 'text'" formControlName="password">
-          <mat-icon matSuffix (click)="hiddenPassword = !hiddenPassword">
-            {{hiddenPassword ? 'visibility' : 'visibility_off'}}
-          </mat-icon>
-          <mat-error *ngIf="loginForm.controls.password.hasError('required')">
-            Password is <strong>required</strong>.
-          </mat-error>
-        </mat-form-field>
-        <button mat-raised-button color="primary">Log In</button>
-      </form>
-      <a routerLink="/register" routerLinkActive="active">Create an account</a>
-    </mat-card-content>
-  </mat-card>
-</div>
+<mat-card class="login-card">
+  <mat-card-content>
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <img class="polaflix-logo" src="../../../assets/logo.png" alt="Polaflix Logo">
+      <mat-form-field>
+        <input matInput placeholder="User name" formControlName="userName">
+        <mat-error *ngIf="loginForm.controls.userName.hasError('required')">
+          User name is <strong>required</strong>.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Password" [type]="hiddenPassword ? 'password' : 'text'" formControlName="password">
+        <mat-icon matSuffix (click)="hiddenPassword = !hiddenPassword">
+          {{hiddenPassword ? 'visibility' : 'visibility_off'}}
+        </mat-icon>
+        <mat-error *ngIf="loginForm.controls.password.hasError('required')">
+          Password is <strong>required</strong>.
+        </mat-error>
+      </mat-form-field>
+      <button class="login-button" mat-raised-button color="primary">Log In</button>
+    </form>
+    <a class="register-link" routerLink="/register" routerLinkActive="active">Create an account</a>
+  </mat-card-content>
+</mat-card>

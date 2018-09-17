@@ -1,0 +1,54 @@
+:host {
+  height: 100%;
+  width: 100%;
+  grid-column: 2 / 3;
+  grid-row: 4 / 5;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 16px 1fr 16px 1fr 16px 64px;
+}
+.ongoing-list {
+  background-color: white;
+  grid-row: 1 / 2;
+  grid-column: 1 / 2;
+}
+.pending-list {
+  background-color: white;
+  grid-row: 3 / 4;
+  grid-column: 1 / 2;
+}
+.completed-list {
+  background-color: white;
+  grid-row: 5 / 6;
+  grid-column: 1 / 2;
+}
+.series-name {
+  height: 24px !important;
+  font-size: 16px;
+}
+.banner {
+  height: 64px;
+  grid-row: 7 / 8;
+  grid-column: 1 / 2;
+}
+.banner-row {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr 16px 2fr;
+  width: 100%;
+}
+.banner-icons {
+  grid-row: 1 / 2;
+  grid-column: 1 / 2;
+  justify-self: center;
+}
+.banner-message {
+  grid-row: 1 / 2;
+  grid-column: 3 / 4;
+  justify-self: left;
+}
+.company-name {
+  display: inline-block;
+  color: white;
+  background-color: black;
+}

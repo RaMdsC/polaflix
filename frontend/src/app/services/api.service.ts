@@ -39,7 +39,7 @@ export class ApiService {
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
-    let errorMessage = null;
+    let errorMessage: string = null;
     if (error.error instanceof ErrorEvent) {
       // Client side error
       errorMessage = `Client side error - ${error.error.message} - Please try again later`;

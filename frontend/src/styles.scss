@@ -4,6 +4,13 @@
 mat-icon {
   cursor: pointer;
 }
+html, body {
+  display: block;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
 
 // Custom typography to apply in web app
 $custom-typography: mat-typography-config(
